@@ -123,7 +123,7 @@ const generateBudgetAnalysis = (data) => {
     const topCategory = categoryStats[0];
     const topCategoryPercentage = expense > 0 ? (topCategory.total / expense) * 100 : 0;
     
-    categoryAnalysis = `Ваша самая большая категория расходов - "${topCategory.name}" (${topCategory.total.toFixed(2)} руб., ${topCategoryPercentage.toFixed(1)}% от всех расходов).`;
+    categoryAnalysis = `Ваша самая большая категория расходов - "${topCategory.name}" (${topCategory.total.toFixed(2)} ₸, ${topCategoryPercentage.toFixed(1)}% от всех расходов).`;
     
     if (topCategoryPercentage > 30) {
       categoryAnalysis += ' Это значительная доля ваших расходов. Рассмотрите возможности оптимизации в этой категории.';
@@ -149,7 +149,7 @@ const generateBudgetAnalysis = (data) => {
   
   // Формируем общий анализ
   const analysis = {
-    summary: `Доход: ${income.toFixed(2)} руб., Расходы: ${expense.toFixed(2)} руб., Баланс: ${balance.toFixed(2)} руб.`,
+    summary: `Доход: ${income.toFixed(2)} ₸, Расходы: ${expense.toFixed(2)} ₸, Баланс: ${balance.toFixed(2)} ₸`,
     savingsRate: `Норма сбережений: ${savingsRate.toFixed(1)}%`,
     financialStatus,
     categoryAnalysis,
@@ -188,11 +188,11 @@ exports.getBudgetAnalysis = async (req, res) => {
         const prompt = `
 Ты - финансовый помощник BudgetBuddy. Проанализируй следующие финансовые данные пользователя за период с ${startDate ? new Date(startDate).toLocaleDateString('ru-RU') : new Date(defaultStartDate).toLocaleDateString('ru-RU')} по ${endDate ? new Date(endDate).toLocaleDateString('ru-RU') : new Date(defaultEndDate).toLocaleDateString('ru-RU')}:
 
-*   Общий доход: ${userData.summary.income.total.toFixed(2)} руб.
-*   Общие расходы: ${userData.summary.expense.total.toFixed(2)} руб.
-*   Баланс (Доход - Расход): ${userData.balance.toFixed(2)} руб.
+*   Общий доход: ${userData.summary.income.total.toFixed(2)} ₸
+*   Общие расходы: ${userData.summary.expense.total.toFixed(2)} ₸
+*   Баланс (Доход - Расход): ${userData.balance.toFixed(2)} ₸
 *   Статистика по категориям расходов (топ 3): 
-    ${userData.categoryStats.slice(0, 3).map(c => `- ${c.name}: ${c.total.toFixed(2)} руб.`).join('\n    ') || '- Нет расходов'}
+    ${userData.categoryStats.slice(0, 3).map(c => `- ${c.name}: ${c.total.toFixed(2)} ₸`).join('\n    ') || '- Нет расходов'}
 
 Дай краткий (2-3 абзаца) финансовый анализ и 2-3 практических совета по улучшению финансового положения пользователя на основе этих данных. Будь позитивным и ободряющим. Не используй markdown.
 `;
@@ -235,10 +235,10 @@ exports.askFinanceQuestion = async (req, res) => {
         // Формируем промпт для Gemini
          const contextPrompt = `
 Контекст: Финансовые данные пользователя за последние 3 месяца:
-*   Доход: ${userData.summary.income.total.toFixed(2)} руб.
-*   Расходы: ${userData.summary.expense.total.toFixed(2)} руб.
-*   Баланс: ${userData.balance.toFixed(2)} руб.
-*   Топ категория расходов: ${userData.categoryStats.length > 0 ? `${userData.categoryStats[0].name} (${userData.categoryStats[0].total.toFixed(2)} руб.)` : 'Нет данных'}
+*   Доход: ${userData.summary.income.total.toFixed(2)} ₸
+*   Расходы: ${userData.summary.expense.total.toFixed(2)} ₸
+*   Баланс: ${userData.balance.toFixed(2)} ₸
+*   Топ категория расходов: ${userData.categoryStats.length > 0 ? `${userData.categoryStats[0].name} (${userData.categoryStats[0].total.toFixed(2)} ₸)` : 'Нет данных'}
 
 Вопрос пользователя: ${question}
 
