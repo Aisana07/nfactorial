@@ -3,12 +3,12 @@ $(document).ready(function() {
     let cashFlowChart = null;
     let expenseStructureChart = null;
 
-    // Helper function to get JWT token (assuming it's in app.js or similar)
+    // Вспомогательная функция для получения JWT токена
     function getToken() {
         return localStorage.getItem('token') || sessionStorage.getItem('token');
     }
     
-    // Helper for API requests (assuming it's in app.js or similar)
+    // Вспомогательная функция для API запросов
     function apiRequest(endpoint, method, data) {
         const token = getToken();
         return $.ajax({
@@ -28,12 +28,12 @@ $(document).ready(function() {
         });
     }
 
-    // Function to format currency
+    // Функция для форматирования валюты
     function formatCurrency(amount) {
         return parseFloat(amount).toLocaleString('ru-RU', { style: 'currency', currency: 'KZT', minimumFractionDigits: 2 });
     }
 
-    // Function to generate transaction list item HTML (based on partial)
+    // Функция для создания HTML-элемента списка транзакций (на основе partial)
     function createTransactionListItem(transaction) {
         const descriptionHtml = transaction.description 
             ? `<p class="transaction-description">${transaction.description}</p>` 
@@ -71,29 +71,29 @@ $(document).ready(function() {
         `;
     }
 
-    // Load Dashboard Data
-    window.loadDashboardData = function(period = 'month') { // Made global for app.js access
+    // Загрузка данных для дашборда
+    window.loadDashboardData = function(period = 'month') { 
         $('#transactions-loading').show();
-        $('#recent-transactions-list').empty(); // Clear previous list items
+        $('#recent-transactions-list').empty(); 
         $('#no-transactions').hide();
         
-        // Calculate date range based on period
+        // Рассчитываем диапазон дат на основе периода
         let startDate, endDate;
         const today = new Date();
-        endDate = new Date(today); // Use today as end date
+        endDate = new Date(today); 
 
         if (period === 'today') {
             startDate = new Date(today.setHours(0, 0, 0, 0));
         } else if (period === 'year') {
             startDate = new Date(today.getFullYear(), 0, 1);
-        } else if (period === 'month') { // Default to month
+        } else if (period === 'month') { 
             startDate = new Date(today.getFullYear(), today.getMonth(), 1);
         } else {
-            // Handle custom period if implemented
-            startDate = new Date(today.getFullYear(), today.getMonth(), 1); // Default to month
+            // Обработка произвольного периода
+            startDate = new Date(today.getFullYear(), today.getMonth(), 1); 
         }
         
-        // Format dates for API query (YYYY-MM-DD)
+        // Форматируем даты для API запроса (ГГГГ-ММ-ДД)
         const queryStartDate = startDate.toISOString().split('T')[0];
         const queryEndDate = endDate.toISOString().split('T')[0];
 
@@ -102,12 +102,12 @@ $(document).ready(function() {
                 if (response.success) {
                     const data = response;
                     
-                    // Update Summary Cards
+                    // Обновление сводных карточек
                     $('#balance-amount').text(formatCurrency(data.summary.balance));
                     $('#income-amount').text(formatCurrency(data.summary.income.total));
                     $('#expense-amount').text(formatCurrency(data.summary.expense.total));
                     
-                    // Update Recent Transactions
+                    // Обновление последних транзакций
                     const listElement = $('#recent-transactions-list');
                     if (data.recentTransactions && data.recentTransactions.length > 0) {
                         data.recentTransactions.forEach(tx => {
@@ -118,7 +118,7 @@ $(document).ready(function() {
                         $('#no-transactions').show();
                     }
                     
-                    // Update Charts
+                    // Обновление графиков
                     updateCashFlowChart(data.dailyChartData || []);
                     updateExpenseStructureChart(data.topExpenseCategories || []);
                 } else {
@@ -135,7 +135,7 @@ $(document).ready(function() {
             });
     }
 
-    // Initialize Cash Flow Chart
+    // Инициализация графика движения средств
     function updateCashFlowChart(dailyData) {
         const ctx = document.getElementById('cashFlowChart')?.getContext('2d');
         if (!ctx) return;
@@ -207,14 +207,14 @@ $(document).ready(function() {
         }
     }
 
-    // Initialize Expense Structure Chart
+    // Инициализация графика структуры расходов
     function updateExpenseStructureChart(categoryData) {
         const ctx = document.getElementById('expenseStructureChart')?.getContext('2d');
         if (!ctx) return;
 
         const labels = categoryData.map(c => c.name);
         const data = categoryData.map(c => c.total);
-        const backgroundColors = categoryData.map(c => c.color || '#' + Math.floor(Math.random()*16777215).toString(16)); // Use provided color or random
+        const backgroundColors = categoryData.map(c => c.color || '#' + Math.floor(Math.random()*16777215).toString(16)); // Используем предоставленный цвет или случайный
 
         if (expenseStructureChart) {
             expenseStructureChart.data.labels = labels;
@@ -260,23 +260,70 @@ $(document).ready(function() {
         }
     }
 
-    // Date Filter Logic
-    $('.date-filter .btn').on('click', function() {
-        // Handle active state
-        $('.date-filter .btn').removeClass('active');
+    // Обработчик редактирования транзакции (с делегированием событий)
+    $('#recent-transactions-list').on('click', '.edit-transaction', function(e) {
+        e.preventDefault();
+        const transactionId = $(this).data('id');
+        
+        // Получаем данные транзакции для заполнения формы
+        apiRequest(`/transactions/${transactionId}`, 'GET')
+            .done(function(tx) {
+                $('#description').val(tx.description);
+                $('#date').val(new Date(tx.date).toISOString().split('T')[0]);
+                
+                // Загружаем и выбираем нужную категорию
+                populateCategoryOptions(tx.type).then(() => {
+                   $('#category').val(tx.category._id || tx.category); // Учитываем, что category может быть ID или объектом
+                });
+                
+                $('#transactionModalTitle').text('Редактировать транзакцию');
+                const transactionModalInstance = bootstrap.Modal.getInstance(document.getElementById('transactionModal'));
+                if (transactionModalInstance) {
+                    transactionModalInstance.show();
+                } else {
+                    // Fallback, если экземпляр не найден
+                     new bootstrap.Modal(document.getElementById('transactionModal')).show();
+                }
+            })
+            .fail(function() {
+                console.error('API request failed');
+            });
+    });
+
+    // Обработчик удаления транзакции (с делегированием событий)
+    $('#recent-transactions-list').on('click', '.delete-transaction', function(e) {
+        e.preventDefault();
+        const transactionId = $(this).data('id');
+        
+        // Подтверждаем удаление
+        if (confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
+            apiRequest(`/transactions/${transactionId}`, 'DELETE')
+                .done(function() {
+                    // Удаляем элемент из списка
+                    $(`[data-id="${transactionId}"]`).remove();
+                    $('#no-transactions').hide();
+                })
+                .fail(function() {
+                    console.error('API request failed');
+                });
+        }
+    });
+
+    // Первичная загрузка данных
+    loadDashboardData('month'); // Загружаем данные за текущий месяц по умолчанию
+
+    // Кнопки фильтра периода
+    $('.date-filter button').on('click', function() {
+        const period = $(this).data('period');
+        // Обработка активного состояния
+        $('.date-filter button').removeClass('active');
         $(this).addClass('active');
         
-        const period = $(this).data('period');
-        
         if (period === 'custom') {
-            // Implement custom date range picker if needed
+            // Реализация выбора произвольного диапазона дат
             alert('Custom date range not implemented yet.');
         } else {
             loadDashboardData(period);
         }
     });
-
-    // Initial Load
-    loadDashboardData('month'); // Load default month view
-
 }); 

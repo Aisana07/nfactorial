@@ -1,12 +1,12 @@
 // Глобальные переменные и хелперы
 const API_URL = $('meta[name="api-url"]').attr('content') || '/api';
 
-// Helper function to get JWT token (глобальная видимость не обязательна, но пусть будет здесь)
+// Вспомогательная функция для получения JWT токена (глобальная видимость не обязательна, но пусть будет здесь)
 function getToken() {
     return localStorage.getItem('token') || sessionStorage.getItem('token');
 }
 
-// Helper function for API requests (основа для apiHelper)
+// Вспомогательная функция для API запросов (основа для apiHelper)
 function _apiRequest(endpoint, method, data) {
     const token = getToken();
     return $.ajax({
@@ -27,7 +27,7 @@ function _apiRequest(endpoint, method, data) {
                 sessionStorage.removeItem('token');
                 window.location.href = '/login?sessionExpired=true'; // Добавляем параметр для возможного сообщения
             }
-            // Пробрасываем ошибку дальше, чтобы её можно было поймать в .catch()
+            // Проброс ошибки для дальнейшей обработки
             // throw new Error(xhr.responseJSON?.message || `API request failed with status ${xhr.status}`);
         }
     });
@@ -71,7 +71,7 @@ $(document).ready(function() {
 
     // --- Инициализация и общие обработчики --- //
 
-    // Sidebar toggle for mobile
+    // Переключение бокового меню для мобильных устройств
     $('#sidebar-toggle').on('click', function() {
         $('#sidebar').addClass('active');
     });
@@ -80,7 +80,7 @@ $(document).ready(function() {
         $('#sidebar').removeClass('active');
     });
 
-    // Set active state for current page link in sidebar
+    // Установка активного состояния для ссылки текущей страницы в боковом меню
     const currentPath = window.location.pathname;
     $('.sidebar-nav .nav-link').each(function() {
         const linkPath = $(this).attr('href');
@@ -94,14 +94,14 @@ $(document).ready(function() {
         }
     });
 
-    // Logout button
+    // Кнопка выхода
     $('#logout-btn').on('click', function() {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         window.location.href = '/login';
     });
 
-    // Update username in header (if element exists)
+    // Обновление имени пользователя в шапке (если элемент существует)
     async function updateUsernameInHeader() {
         const $usernameSpan = $('#username');
         if ($usernameSpan.length) {
@@ -123,13 +123,13 @@ $(document).ready(function() {
 
     // --- Логика, связанная с модальным окном транзакций --- //
 
-    // Initialize Transaction Modal (если элемент есть на странице)
+    // Инициализация модального окна транзакции (если элемент есть на странице)
     const transactionModalElement = document.getElementById('transactionModal');
     if (transactionModalElement) {
         transactionModal = new bootstrap.Modal(transactionModalElement);
     }
 
-    // Open Add Transaction Modal
+    // Открытие модального окна добавления транзакции
     // Используем делегирование на body, чтобы работало на всех страницах
     $('body').on('click', '#add-transaction-btn', function() {
         if (!transactionModal) return;
@@ -139,20 +139,20 @@ $(document).ready(function() {
         transactionModal.show();
     });
 
-    // Reset Transaction Form
+    // Сброс формы транзакции
     function resetTransactionForm() {
         const $form = $('#transaction-form');
         if($form.length) {
             $form[0].reset();
             $('#transaction-id').val('');
-            $('#type-expense').prop('checked', true); // Default to expense
+            $('#type-expense').prop('checked', true); // По умолчанию - расход
             // Устанавливаем сегодняшнюю дату
             const today = new Date().toISOString().split('T')[0];
             $('#date').val(today);
         }
     }
 
-    // Load categories based on selected transaction type in modal
+    // Загрузка категорий в зависимости от выбранного типа транзакции в модальном окне
     // Добавляем проверку на существование элементов формы
     const $typeRadios = $('#transactionModal input[name="type"]');
     if ($typeRadios.length) {
@@ -213,7 +213,7 @@ $(document).ready(function() {
         }
     }
 
-    // Save Transaction (Create or Update)
+    // Сохранение транзакции (Создание или Обновление)
     const $saveTransactionBtn = $('#save-transaction');
     if ($saveTransactionBtn.length) {
         $saveTransactionBtn.on('click', async function() {
@@ -227,7 +227,7 @@ $(document).ready(function() {
             };
             const transactionId = $('#transaction-id').val();
 
-            // Basic Validation
+            // Базовая валидация
             if (!transactionData.amount || isNaN(transactionData.amount) || transactionData.amount <= 0) {
                 alert('Пожалуйста, введите корректную сумму.');
                 return;
@@ -249,16 +249,15 @@ $(document).ready(function() {
             try {
                 await window.apiHelper[requestMethod.toLowerCase()](requestUrl, transactionData);
                 transactionModal.hide();
-                alert(`Транзакция ${transactionId ? 'обновлена' : 'добавлена'} успешно!`);
+                alert('Транзакция успешно сохранена!');
 
-                // Обновляем данные на текущей странице
+                // Перезагрузка данных на текущей странице
                 if (typeof loadDashboardData === 'function') {
                     loadDashboardData();
                 } else if (typeof loadTransactions === 'function') {
-                    loadTransactions(window.currentFilters || {}); // Предполагаем, что transactions.js установит currentFilters в window
+                    loadTransactions(window.currentFilters || {});
                 }
-                // Можно добавить обновление для других страниц (аналитика и т.д.) при необходимости
-
+                
             } catch (error) {
                  console.error("Ошибка сохранения транзакции:", error);
                  alert('Ошибка при сохранении транзакции: ' + (error.responseJSON?.message || 'Проверьте введенные данные'));
@@ -304,7 +303,7 @@ $(document).ready(function() {
             await window.apiHelper.delete(`/transactions/${transactionId}`);
             alert('Транзакция удалена.');
 
-            // Удаляем элемент из DOM, если он виден
+            // Удаление элемента из DOM
             $(`.transaction-item[data-id="${transactionId}"]`).fadeOut(300, function() { $(this).remove(); });
 
             // Обновляем данные на текущей странице

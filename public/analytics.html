@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BudgetBuddy - Аналитика</title>
-    <!-- API URL -->
+    <!-- URL API -->
     <meta name="api-url" content="/api">
-    <!-- Bootstrap CSS -->
+    <!-- CSS Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- CSS Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <!-- Chart.js CSS -->
+     <!-- CSS Chart.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
-    <!-- Custom CSS -->
+    <!-- Пользовательские стили CSS -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/analytics.css"> <!-- Add specific styles if needed -->
+    <link rel="stylesheet" href="/css/analytics.css">
 </head>
 <body>
     <div class="app-container">
@@ -56,7 +56,7 @@
                 <div class="analytics-page">
                     <div class="page-header">
                         <h2>Финансовая аналитика</h2>
-                        <!-- Add date/period filters here if needed -->
+                        <!-- Фильтры даты/периода -->
                     </div>
 
                     <div class="row">
@@ -64,7 +64,7 @@
                              <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">Расходы по категориям</h5>
-                                    <!-- Filters: Type (expense/income), Period -->
+                                    <!-- Фильтры: Тип (расход/доход), Период -->
                                 </div>
                                 <div class="card-body">
                                     <canvas id="categoryExpensesChart"></canvas>
@@ -76,7 +76,7 @@
                              <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">Динамика по месяцам</h5>
-                                     <!-- Filters: Year -->
+                                     <!-- Фильтры: Год -->
                                 </div>
                                 <div class="card-body">
                                     <canvas id="monthlyTrendChart"></canvas>
@@ -113,11 +113,11 @@
         </div>
     </div>
     
-    <!-- JS Libraries -->
+    <!-- Библиотеки JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <!-- Custom JS -->
+    <!-- Пользовательские скрипты JS -->
     <script src="/js/auth.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/analytics.js"></script>

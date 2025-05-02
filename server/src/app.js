@@ -29,10 +29,10 @@ app.use(helmet({
   }
 }));
 
-// Static files - Serve everything from 'public'
+// Статические файлы
 app.use(express.static(path.join(__dirname, '../../public')));
 
-// Import API routes
+// Импорт маршрутов API
 const authRoutes = require('./routes/auth.routes');
 const transactionRoutes = require('./routes/transaction.routes');
 const categoryRoutes = require('./routes/category.routes');
@@ -41,7 +41,7 @@ const analyticsRoutes = require('./routes/analytics.routes');
 const aiRoutes = require('./routes/ai.routes');
 const userRoutes = require('./routes/user.routes');
 
-// Use API routes
+// Использование маршрутов API
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -50,7 +50,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/users', userRoutes);
 
-// Serve HTML files for frontend routes
+// Обслуживание HTML файлов для маршрутов фронтенда
 const publicPath = path.join(__dirname, '../../public');
 
 app.get('/', (req, res) => {
@@ -65,7 +65,7 @@ app.get('/register', (req, res) => {
   res.sendFile(path.join(publicPath, 'register.html'));
 });
 
-// Serve other potential frontend pages (add as needed)
+// Обслуживание других страниц фронтенда
 app.get('/transactions', (req, res) => {
   res.sendFile(path.join(publicPath, 'transactions.html'));
 });
@@ -82,7 +82,7 @@ app.get('/settings', (req, res) => {
   res.sendFile(path.join(publicPath, 'settings.html'));
 });
 
-// Connect to MongoDB
+// Подключение к MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB database');
@@ -95,13 +95,12 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-// Error handling middleware
+// Middleware для обработки ошибок
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  // Check if the request expects HTML or JSON
+  // Проверяем, ожидает ли запрос HTML или JSON
   if (req.accepts('html')) {
-      // Send a generic error HTML page or redirect
-      // For now, just sending text
+      // Отправляем общую HTML страницу ошибки или делаем редирект
       res.status(err.status || 500).send('Internal Server Error'); 
   } else {
       res.status(err.status || 500).json({
