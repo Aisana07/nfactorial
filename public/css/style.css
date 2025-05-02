@@ -1,0 +1,345 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --gray-color: #95a5a6;
+    
+    --sidebar-width: 250px;
+    --sidebar-bg: #2c3e50;
+    --sidebar-color: #ecf0f1;
+    --sidebar-hover: #34495e;
+    
+    --card-border-radius: 10px;
+    --transition-speed: 0.3s;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    transition: all var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar-nav .nav-link {
+    color: var(--sidebar-color);
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    transition: all var(--transition-speed);
+}
+
+.sidebar-nav .nav-link:hover, 
+.sidebar-nav .nav-link.active {
+    background-color: var(--sidebar-hover);
+    color: var(--secondary-color);
+}
+
+.sidebar-nav .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Content Area */
+.content {
+    flex-grow: 1;
+    margin-left: var(--sidebar-width);
+    transition: all var(--transition-speed);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sidebar-toggle {
+    display: none;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-greeting {
+    margin-right: 10px;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content-body {
+    padding: 20px;
+}
+
+/* Dashboard */
+.dashboard .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.date-filter .btn-sm {
+    margin-left: 5px;
+}
+
+.summary-cards {
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background-color: #fff;
+    border-radius: var(--card-border-radius);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.summary-card.balance {
+    border-left: 4px solid var(--primary-color);
+}
+
+.summary-card.income {
+    border-left: 4px solid var(--secondary-color);
+}
+
+.summary-card.expense {
+    border-left: 4px solid var(--danger-color);
+}
+
+.summary-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.summary-card-title {
+    font-size: 16px;
+    color: var(--gray-color);
+    margin: 0;
+}
+
+.summary-card-icon {
+    font-size: 20px;
+    color: var(--gray-color);
+}
+
+.summary-card-amount {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.summary-card-change {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.summary-card-change.positive {
+    color: var(--secondary-color);
+}
+
+.summary-card-change.negative {
+    color: var(--danger-color);
+}
+
+.summary-card-change i {
+    margin-right: 5px;
+}
+
+.dashboard-main {
+    margin-bottom: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 15px 20px;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Transaction List */
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.transaction-details {
+    flex-grow: 1;
+}
+
+.transaction-primary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.transaction-category {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.transaction-amount {
+    font-weight: 600;
+}
+
+.transaction-amount.positive {
+    color: var(--secondary-color);
+}
+
+.transaction-amount.negative {
+    color: var(--danger-color);
+}
+
+.transaction-secondary {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray-color);
+    font-size: 14px;
+}
+
+.transaction-description {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50%;
+}
+
+.transaction-actions {
+    margin-left: 10px;
+}
+
+.no-transactions {
+    text-align: center;
+    padding: 20px;
+    color: var(--gray-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+} 

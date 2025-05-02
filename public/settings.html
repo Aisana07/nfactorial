@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy - Настройки</title>
+    <!-- API URL -->
+    <meta name="api-url" content="/api">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/settings.css"> <!-- Add specific styles if needed -->
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковое меню -->
+        <aside class="sidebar" id="sidebar">
+             <div class="sidebar-header">
+                <h1 class="app-title">BudgetBuddy</h1>
+                <button class="btn d-md-none" id="close-sidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                 <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/transactions"><i class="fas fa-exchange-alt"></i> Транзакции</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/categories"><i class="fas fa-tags"></i> Категории</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/analytics"><i class="fas fa-chart-pie"></i> Аналитика</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ai-assistant"><i class="fas fa-robot"></i> AI-Помощник</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/settings"><i class="fas fa-cog"></i> Настройки</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-primary w-100 mb-2" id="add-transaction-btn"><i class="fas fa-plus"></i> Добавить транзакцию</button>
+                <button class="btn btn-outline-danger w-100" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+            </div>
+        </aside>
+        
+        <!-- Основной контент -->
+        <main class="content">
+             <!-- Шапка -->
+             <header class="content-header">
+                <button class="btn sidebar-toggle d-md-none" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="user-info" id="user-info">
+                    <span class="user-greeting">Привет, <span id="username">Пользователь</span></span>
+                    <img src="/images/default-avatar.png" alt="Avatar" class="user-avatar">
+                </div>
+            </header>
+            
+            <!-- Тело страницы Настроек -->
+            <div class="content-body">
+                <div class="settings-page">
+                     <div class="page-header">
+                        <h2>Настройки пользователя</h2>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Профиль</h5>
+                            <form id="profile-settings-form">
+                                <div class="mb-3 row">
+                                    <label for="settings-username" class="col-sm-3 col-form-label">Имя пользователя</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="settings-username" required>
+                                    </div>
+                                </div>
+                                 <div class="mb-3 row">
+                                    <label for="settings-email" class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="settings-email" required>
+                                    </div>
+                                </div>
+                                <!-- Add Avatar Upload later if needed -->
+                                <!-- <div class="mb-3 row">
+                                    <label for="settings-avatar" class="col-sm-3 col-form-label">Аватар</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control" id="settings-avatar">
+                                    </div>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-sm-9 offset-sm-3">
+                                         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <hr class="my-4">
+                            
+                            <h5 class="card-title mb-4">Смена пароля</h5>
+                             <form id="password-settings-form">
+                                 <div class="mb-3 row">
+                                    <label for="current-password" class="col-sm-3 col-form-label">Текущий пароль</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="current-password" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="new-password" class="col-sm-3 col-form-label">Новый пароль</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="new-password" required minlength="6">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="confirm-new-password" class="col-sm-3 col-form-label">Подтвердите пароль</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="confirm-new-password" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-9 offset-sm-3">
+                                         <button type="submit" class="btn btn-warning">Сменить пароль</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                             <hr class="my-4">
+                             
+                            <h5 class="card-title mb-4">Удаление аккаунта</h5>
+                             <p class="text-muted">Это действие необратимо. Все ваши данные будут удалены.</p>
+                             <button class="btn btn-danger" id="delete-account-btn">Удалить аккаунт</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Модальное окно для добавления/редактирования транзакции -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title" id="transactionModalTitle">Добавить транзакцию</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body">
+                    <form id="transaction-form">
+                        <input type="hidden" id="transaction-id">
+                        <div class="mb-3"><label class="form-label">Тип</label><div class="btn-group w-100" role="group"><input type="radio" class="btn-check" name="type" id="type-expense" value="expense" checked><label class="btn btn-outline-danger" for="type-expense">Расход</label><input type="radio" class="btn-check" name="type" id="type-income" value="income"><label class="btn btn-outline-success" for="type-income">Доход</label></div></div>
+                        <div class="mb-3"><label for="amount" class="form-label">Сумма</label><input type="number" class="form-control" id="amount" required min="0" step="0.01"></div>
+                        <div class="mb-3"><label for="category" class="form-label">Категория</label><select class="form-select" id="category" required><option value="" disabled selected>Выберите категорию</option></select></div>
+                        <div class="mb-3"><label for="date" class="form-label">Дата</label><input type="date" class="form-control" id="date" required></div>
+                        <div class="mb-3"><label for="description" class="form-label">Описание</label><textarea class="form-control" id="description" rows="2"></textarea></div>
+                    </form>
+                </div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary" id="save-transaction">Сохранить</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JS Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/settings.js"></script>
+</body>
+</html> 

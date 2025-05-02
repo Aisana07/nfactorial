@@ -1,0 +1,143 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --gray-color: #95a5a6;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+
+/* Auth Layout */
+.auth-visual {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.auth-visual-content {
+    max-width: 500px;
+}
+
+.app-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.auth-slogan {
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+.auth-features {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.auth-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.auth-feature i {
+    font-size: 24px;
+    color: var(--secondary-color);
+    margin-top: 5px;
+}
+
+.auth-feature h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.auth-feature p {
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Auth Form */
+.auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: var(--gray-color);
+}
+
+.auth-form form {
+    margin-bottom: 30px;
+}
+
+.auth-form .form-control:focus,
+.auth-form .btn-outline-secondary:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+}
+
+.auth-form .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 10px;
+}
+
+.auth-form .btn-primary:hover,
+.auth-form .btn-primary:focus {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.auth-footer {
+    text-align: center;
+    color: var(--gray-color);
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .auth-visual {
+        display: none;
+    }
+} 
