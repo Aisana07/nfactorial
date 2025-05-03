@@ -49,7 +49,7 @@ https://nfactorial-xlvc.onrender.com
 
 1.  **Клонируйте репозиторий:**
     ```bash
-    git clone https://github.com/Aisana07/nfactorial.git # Замените на URL вашего репозитория, если он другой
+    git clone https://github.com/Aisana07/nfactorial.git
     ```
 2.  **Перейдите в директорию проекта:**
     ```bash
