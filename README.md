@@ -33,8 +33,6 @@ https://nfactorial-xlvc.onrender.com
     *   JSON Web Tokens (jsonwebtoken) (для аутентификации)
     *   Bcrypt (для хеширования паролей)
     *   Dotenv (для переменных окружения)
-    *   Helmet (для установки HTTP-заголовков безопасности, включая CSP)
-    *   Morgan (для логирования HTTP-запросов)
     *   Google Generative AI SDK (`@google/generative-ai`) (для интеграции с Gemini)
 *   **Frontend:**
     *   HTML5
